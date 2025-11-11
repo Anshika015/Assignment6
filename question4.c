@@ -1,43 +1,46 @@
-#include <iostream>
-using namespace std;
+#include <stdio.h>
+#include <stdlib.h>
 
 struct Node {
     char data;
-    Node* prev;
-    Node* next;
+    struct Node* prev;
+    struct Node* next;
 };
 
-bool isPalindrome(Node* head) {
-    if (!head) return true;
+int isPalindrome(struct Node* head) {
+    if (head == NULL) return 1;
 
-    Node* left = head;
-    Node* right = head;
+    struct Node* left = head;
+    struct Node* right = head;
+
     while (right->next != NULL)
         right = right->next;
     while (left != right && right->next != left) {
         if (left->data != right->data)
-            return false;
+            return 0;
         left = left->next;
         right = right->prev;
     }
-    return true;
+    return 1;
 }
 
 int main() {
-    Node* n1 = new Node{'r', NULL, NULL};
-    Node* n2 = new Node{'a', n1, NULL};
-    Node* n3 = new Node{'d', n2, NULL};
-    Node* n4 = new Node{'a', n3, NULL};
-    Node* n5 = new Node{'r', n4, NULL};
-    n1->next = n2;
-    n2->next = n3;
-    n3->next = n4;
-    n4->next = n5;
+    struct Node* n1 = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* n2 = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* n3 = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* n4 = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* n5 = (struct Node*)malloc(sizeof(struct Node));
+
+    n1->data = 'r'; n1->prev = NULL; n1->next = n2;
+    n2->data = 'a'; n2->prev = n1;   n2->next = n3;
+    n3->data = 'd'; n3->prev = n2;   n3->next = n4;
+    n4->data = 'a'; n4->prev = n3;   n4->next = n5;
+    n5->data = 'r'; n5->prev = n4;   n5->next = NULL;
 
     if (isPalindrome(n1))
-        cout << "Palindrome";
+        printf("Palindrome");
     else
-        cout << "Not Palindrome";
+        printf("Not Palindrome");
 
     return 0;
 }
